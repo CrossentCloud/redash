@@ -355,9 +355,11 @@ class QueryResult {
     return queryResult;
   }
 
-  loadLatestCachedResult(queryId, parameters) {
+  //loadLatestCachedResult(queryId, parameters) {
+  loadLatestCachedResult(queryId, parameters, applyAutoLimit) {
     axios
-      .post(`api/queries/${queryId}/results`, { queryId, parameters })
+      //.post(`api/queries/${queryId}/results`, { queryId, parameters })
+      .post(`api/queries/${queryId}/results`, { queryId, parameters, apply_auto_limit: applyAutoLimit})
       .then(response => {
         this.update(response);
       })
@@ -397,9 +399,11 @@ class QueryResult {
       });
   }
 
-  refreshStatus(query, parameters, tryNumber = 1) {
+  //refreshStatus(query, parameters, tryNumber = 1) {
+  refreshStatus(query, parameters, applyAutoLimit, tryNumber = 1) {
     const loadResult = () =>
-      Auth.isAuthenticated() ? this.loadResult() : this.loadLatestCachedResult(query, parameters);
+      //Auth.isAuthenticated() ? this.loadResult() : this.loadLatestCachedResult(query, parameters);
+      Auth.isAuthenticated() ? this.loadResult() : this.loadLatestCachedResult(query, parameters, applyAutoLimit);
 
     const request = Auth.isAuthenticated()
       ? axios.get(`api/jobs/${this.job.id}`)
@@ -414,7 +418,8 @@ class QueryResult {
         } else if (this.getStatus() !== "failed") {
           const waitTime = tryNumber > 10 ? 3000 : 500;
           setTimeout(() => {
-            this.refreshStatus(query, parameters, tryNumber + 1);
+            //this.refreshStatus(query, parameters, tryNumber + 1);
+	    this.refreshStatus(query, parameters, applyAutoLimit, tryNumber + 1);
           }, waitTime);
         }
       })
@@ -451,7 +456,8 @@ class QueryResult {
         queryResult.update(response);
 
         if ("job" in response) {
-          queryResult.refreshStatus(id, parameters);
+          //queryResult.refreshStatus(id, parameters);
+          queryResult.refreshStatus(id, parameters, applyAutoLimit);
         }
       })
       .catch(error => {
