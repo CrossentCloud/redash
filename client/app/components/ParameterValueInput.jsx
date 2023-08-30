@@ -169,6 +169,7 @@ class ParameterValueInput extends React.Component {
         return this.renderDateParameter();
       case "datetime-range-with-seconds":
       case "datetime-range":
+      case "date-range-switchable":
       case "date-range":
         return this.renderDateRangeParameter();
       case "enum":

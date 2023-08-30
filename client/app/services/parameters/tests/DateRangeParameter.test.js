@@ -20,6 +20,17 @@ describe("DateRangeParameter", () => {
       expect(executionValue).toEqual({ start: "2019-10-05", end: "2019-10-06" });
     });
 
+    describe("type is date-range-switchable", () => {
+      beforeAll(() => {
+        type = "date-range-switchable";
+      });
+
+      test("formats value as a string datetime", () => {
+        const executionValue = param.getExecutionValue();
+        expect(executionValue).toEqual({ start: "2019-10-05", end: "2019-10-06" });
+      });
+    });
+
     describe("type is datetime-range", () => {
       beforeAll(() => {
         type = "datetime-range";

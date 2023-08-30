@@ -19,6 +19,7 @@ function createParameter(param, parentQueryId) {
     case "datetime-with-seconds":
       return new DateParameter(param, parentQueryId);
     case "date-range":
+    case "date-range-switchable":
     case "datetime-range":
     case "datetime-range-with-seconds":
       return new DateRangeParameter(param, parentQueryId);

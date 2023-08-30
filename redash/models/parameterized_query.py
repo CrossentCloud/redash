@@ -173,6 +173,7 @@ class ParameterizedQuery(object):
             "datetime-local": _is_date,
             "datetime-with-seconds": _is_date,
             "date-range": _is_date_range,
+            "date-range-switchable": _is_date_range,
             "datetime-range": _is_date_range,
             "datetime-range-with-seconds": _is_date_range,
         }

@@ -5,6 +5,7 @@ import moment from "moment";
 import { includes, isArray, isObject } from "lodash";
 import { isDynamicDateRange } from "@/services/parameters/DateRangeParameter";
 import DateRangeInput from "@/components/DateRangeInput";
+import DateRangeSwitchableInput from "@/components/DateRangeSwitchableInput";
 import DateTimeRangeInput from "@/components/DateTimeRangeInput";
 import DynamicButton from "@/components/dynamic-parameters/DynamicButton";
 
@@ -16,7 +17,7 @@ function isValidDateRangeValue(value) {
 
 class DynamicDateRangePicker extends React.Component {
   static propTypes = {
-    type: PropTypes.oneOf(["date-range", "datetime-range", "datetime-range-with-seconds"]).isRequired,
+    type: PropTypes.oneOf(["date-range", "date-range-switchable", "datetime-range", "datetime-range-with-seconds"]).isRequired,
     className: PropTypes.string,
     value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
     parameter: PropTypes.any, // eslint-disable-line react/forbid-prop-types
@@ -69,12 +70,15 @@ class DynamicDateRangePicker extends React.Component {
   render() {
     const { type, value, onSelect, className, dynamicButtonOptions, dateRangeOptions, parameter, ...rest } = this.props;
     const isDateTimeRange = includes(type, "datetime-range");
+    const isDateRangeSwitchable = includes(type, "date-range-switchable");
     const hasDynamicValue = isDynamicDateRange(value);
 
     const additionalAttributes = {};
 
     let DateRangeComponent = DateRangeInput;
-    if (isDateTimeRange) {
+    if (isDateRangeSwitchable) {
+      DateRangeComponent = DateRangeSwitchableInput;
+    } else if (isDateTimeRange) {
       DateRangeComponent = DateTimeRangeInput;
       if (includes(type, "with-seconds")) {
         additionalAttributes.withSeconds = true;
@@ -106,7 +110,9 @@ class DynamicDateRangePicker extends React.Component {
           selectedDynamicValue={hasDynamicValue ? value : null}
           enabled={hasDynamicValue}
           onSelect={this.onDynamicValueSelect}
+	  style={{ float: "right" }}
         />
+	<div style={{ clear: "both" }}></div>
       </div>
     );
   }

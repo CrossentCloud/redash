@@ -5,6 +5,7 @@ import Parameter from "./Parameter";
 
 const DATETIME_FORMATS = {
   "date-range": "YYYY-MM-DD",
+  "date-range-switchable": "YYYY-MM-DD",
   "datetime-range": "YYYY-MM-DD HH:mm",
   "datetime-range-with-seconds": "YYYY-MM-DD HH:mm:ss",
 };

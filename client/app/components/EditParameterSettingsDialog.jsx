@@ -176,6 +176,7 @@ function EditParameterSettingsDialog(props) {
             <Option value="date-range" data-test="DateRangeParameterTypeOption">
               Date Range
             </Option>
+            <Option value="date-range-switchable">Date Range Switchable</Option>
             <Option value="datetime-range">Date and Time Range</Option>
             <Option value="datetime-range-with-seconds">Date and Time Range (with seconds)</Option>
           </Select>

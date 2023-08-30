@@ -19,6 +19,7 @@ describe("Parameter", () => {
       ["datetime-local", DateParameter],
       ["datetime-with-seconds", DateParameter],
       ["date-range", DateRangeParameter],
+      ["date-range-switchable", DateRangeParameter],
       ["datetime-range", DateRangeParameter],
       ["datetime-range-with-seconds", DateRangeParameter],
       [null, TextParameter],
