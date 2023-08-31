@@ -33,7 +33,7 @@ const DateRangeSwitchableInput = React.forwardRef(
           <Option value="day">Day</Option>
           <Option value="month">Month</Option>
           <Option value="year">Year</Option>
-        <clientConfig/Select>
+        </Select>
         <RangePicker
           ref={ref}
           className={className}
