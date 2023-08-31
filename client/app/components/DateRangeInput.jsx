@@ -9,6 +9,7 @@ const { RangePicker } = DatePicker;
 
 const DateRangeInput = React.forwardRef(({ defaultValue, value, onSelect, className, ...props }, ref) => {
   const format = clientConfig.dateFormat || "YYYY-MM-DD";
+  const pickerType = 'day';
   const additionalAttributes = {};
   if (isArray(defaultValue) && defaultValue[0].isValid() && defaultValue[1].isValid()) {
     additionalAttributes.defaultValue = defaultValue;
@@ -22,7 +23,7 @@ const DateRangeInput = React.forwardRef(({ defaultValue, value, onSelect, classN
       className={className}
       {...additionalAttributes}
       format={format}
-      onChange={onSelect}
+       onChange={(newDates) => onSelect(newDates, pickerType)}
       {...props}
     />
   );

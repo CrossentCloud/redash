@@ -1,63 +1,45 @@
 import { isArray } from "lodash";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { clientConfig } from "@/services/auth";
 import { Moment } from "@/components/proptypes";
 import DatePicker from "antd/lib/date-picker";
-import Select from "antd/lib/select"; // Select 컴포넌트 추가
-import "antd/lib/date-picker/style/css"; // DatePicker 스타일을 불러옵니다.
-import "antd/lib/select/style/css"; // Select 스타일을 불러옵니다.
+import Select from "antd/lib/select"; 
+import "antd/lib/date-picker/style/css"; 
+import "antd/lib/select/style/css"; 
 
 const { RangePicker } = DatePicker;
-const { Option } = Select; // Option 컴포넌트 추가
+const { Option } = Select; 
 
 const DateRangeSwitchableInput = React.forwardRef(
   ({ defaultValue, value, onSelect, className, ...props }, ref) => {
-    const [rangeType, setRangeType] = useState('day'); // Default to day range	
 
     const additionalAttributes = {};
     if (isArray(defaultValue) && defaultValue[0].isValid() && defaultValue[1].isValid()) {
       additionalAttributes.defaultValue = defaultValue;
-      console.log('default value ' + additionalAttributes.defaultValue);
     } 
 
-  
     if (value === null || (isArray(value) && value[0].isValid() && value[1].isValid())) {
-      switch (rangeType) {
-        case 'day':
-          additionalAttributes.value = value;
-          break;
-        case 'month':
-          additionalAttributes.value = [
-            value ? value[0]?.startOf("month") : null,
-            value ? value[1]?.endOf("month") : null,
-          ];
-          break;
-        case 'year':
-          additionalAttributes.value = [
-            value ? value[0]?.startOf("year") : null,
-            value ? value[1]?.endOf("year") : null,
-          ];
-          break;
-      }
-      console.log('value ' + additionalAttributes.value);
+      additionalAttributes.value = value;
     }	  
-	
+
+    const [pickerType, setPickerType] = useState('day');
+    const handlePickerTypeChange = (newPickerType) => {
+      setPickerType(newPickerType); 
+    };
+	  
     return (
       <div>
-        {/* 옵션 선택 드롭다운 */}
-        <Select value={rangeType} onChange={setRangeType} style={{ width: 100, marginRight: 10 }}>
+        <Select value={pickerType} onChange={handlePickerTypeChange} style={{ width: 100, marginRight: 10 }}>
           <Option value="day">Day</Option>
           <Option value="month">Month</Option>
           <Option value="year">Year</Option>
-        </Select>
-        {/* RangePicker 컴포넌트 */}
+        <clientConfig/Select>
         <RangePicker
           ref={ref}
           className={className}
 	  {...additionalAttributes}
-          onChange={onSelect}
-          picker={rangeType} // 선택한 옵션에 따라 picker 값 변경
+	  onChange={(newDates) => onSelect(newDates, pickerType)}
+          picker={pickerType} 
           {...props}
         />
       </div>

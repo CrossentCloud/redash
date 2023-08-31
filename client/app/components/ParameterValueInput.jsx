@@ -17,6 +17,7 @@ const multipleValuesProps = {
 };
 
 class ParameterValueInput extends React.Component {
+
   static propTypes = {
     type: PropTypes.string,
     value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
@@ -56,7 +57,32 @@ class ParameterValueInput extends React.Component {
     }
   };
 
-  onSelect = value => {
+  onSelect = (value, selectedPickerType) => {
+    switch (selectedPickerType) {
+      case 'month':
+        value = [
+          value ? value[0]?.startOf("month") : null,
+          value ? value[1]?.endOf("month") : null,
+        ];
+        break;
+      case 'year':
+        value = [
+          value ? value[0]?.startOf("year") : null,
+          value ? value[1]?.endOf("year") : null,
+        ];
+        break;
+      case 'day':
+        value = [
+          value ? value[0]?.startOf("day") : null,
+          value ? value[1]?.endOf("day") : null,
+        ];
+        break;
+      default:
+        break;
+    }
+    //console.log('ParameterValueInput.onSelect = ' + selectedPickerType + 
+    //	        ', value =' + value);
+
     const isDirty = !isEqual(value, this.props.value);
     this.setState({ value, isDirty });
     this.props.onSelect(value, isDirty);
