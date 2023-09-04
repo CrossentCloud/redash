@@ -77,6 +77,18 @@ class ParameterValueInput extends React.Component {
           value ? value[1]?.endOf("day") : null,
         ];
         break;
+      case 'week':
+        value = [
+          value ? value[0]?.startOf("week") : null,
+          value ? value[1]?.endOf("week") : null,
+        ];
+        break;
+      case 'quarter':
+        value = [
+          value ? value[0]?.startOf("quarter") : null,
+          value ? value[1]?.endOf("quarter") : null,
+        ];
+        break;
       default:
         break;
     }

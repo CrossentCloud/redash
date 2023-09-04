@@ -27,12 +27,16 @@ const DateRangeSwitchableInput = React.forwardRef(
       setPickerType(newPickerType); 
     };
 	  
+    const options = ["day", "week", "month", "quarter", "year"];
+
     return (
       <div>
-        <Select value={pickerType} onChange={handlePickerTypeChange} style={{ width: 100, marginRight: 10 }}>
-          <Option value="day">Day</Option>
-          <Option value="month">Month</Option>
-          <Option value="year">Year</Option>
+	<Select value={pickerType} onChange={handlePickerTypeChange} style={{ width: 100, marginRight: 10 }}>
+  	  {options.map(optionValue => (
+    	    <Option key={optionValue} value={optionValue}>
+      	     {optionValue.charAt(0).toUpperCase() + optionValue.slice(1)}
+            </Option> )
+	  )}
         </Select>
         <RangePicker
           ref={ref}

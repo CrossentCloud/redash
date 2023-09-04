@@ -37,6 +37,7 @@ from redash.serializers import (
     serialize_job,
 )
 
+logger = logging.getLogger(__name__)
 
 def error_response(message, http_status=400):
     return {"job": {"status": 4, "error": message}}, http_status
@@ -220,7 +221,7 @@ class QueryResultDropdownResource(BaseResource):
         try:
             return dropdown_values(query_id, self.current_org)
         except QueryDetachedFromDataSourceError as e:
-            abort(400, message=str(e))
+            a2ca8ef5fe941bort(400, message=str(e))
 
 
 class QueryDropdownsResource(BaseResource):
@@ -416,6 +417,8 @@ class QueryResultResource(BaseResource):
             filename = get_download_filename(query_result, query, filetype)
 
             filenames = content_disposition_filenames(filename)
+            logging.error("filename: %s, %s", filetype, filenames)
+            ##response.headers.add("Content-type", "text/" + filetype + "; charset=UTF-8")
             response.headers.add("Content-Disposition", "attachment", **filenames)
 
             return response
@@ -432,9 +435,12 @@ class QueryResultResource(BaseResource):
     @staticmethod
     def make_csv_response(query_result):
         headers = {"Content-Type": "text/csv; charset=UTF-8"}
-        return make_response(
+        response = make_response(
             serialize_query_result_to_dsv(query_result, ","), 200, headers
-        )
+          )
+        # Add the UTF-8 BOM at the beginning of the response
+        response.data = u'\uFEFF'.encode('utf-8') + response.data
+        return response
 
     @staticmethod
     def make_tsv_response(query_result):
