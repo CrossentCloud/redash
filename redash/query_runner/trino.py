@@ -114,6 +114,7 @@ class Trino(BaseQueryRunner):
             catalog=self.configuration.get("catalog", "hive"),
             schema=self.configuration.get("schema", "default"),
             user=self.configuration.get("username"),
+            verify=False,
             auth=auth
         )
 
