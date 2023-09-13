@@ -2,115 +2,37 @@
   <img title="Redash" src='https://redash.io/assets/images/logo.png' width="200px"/>
 </p>
 
-[![Documentation](https://img.shields.io/badge/docs-redash.io/help-brightgreen.svg)](https://redash.io/help/)
-[![Datree](https://s3.amazonaws.com/catalog.static.datree.io/datree-badge-20px.svg)](https://datree.io/?src=badge)
-[![Build Status](https://circleci.com/gh/getredash/redash.png?style=shield&circle-token=8a695aa5ec2cbfa89b48c275aea298318016f040)](https://circleci.com/gh/getredash/redash/tree/master)
+## Redash 이미지 빌드 방법
 
-Redash is designed to enable anyone, regardless of the level of technical sophistication, to harness the power of data big and small. SQL users leverage Redash to explore, query, visualize, and share data from any data sources. Their work in turn enables anybody in their organization to use the data. Every day, millions of users at thousands of organizations around the world use Redash to develop insights and make data-driven decisions.
+``` sh
+# git clone
+$ git clone https://github.com/CrossentCloud/passxpert-dataops.git -b px
+$ ls -l | grep Dockerfile
+-rwxrwxrwx 1 ubuntu ubuntu 3404 May 30 09:21 Dockerfile
 
-Redash features:
+# docker image build
+# 최종 tag는 {version}-custom-{날짜} / 테스트 시에는 10.0.0-custom-1 부터 순차적으로 숫자 증가
+$ docker build . -t harbor.its.doxpert.co.kr/library/redash/redash:11.0.0-custom-{YYMMDD}
+```
 
-1. **Browser-based**: Everything in your browser, with a shareable URL.
-2. **Ease-of-use**: Become immediately productive with data without the need to master complex software.
-3. **Query editor**: Quickly compose SQL and NoSQL queries with a schema browser and auto-complete.
-4. **Visualization and dashboards**: Create [beautiful visualizations](https://redash.io/help/user-guide/visualizations/visualization-types) with drag and drop, and combine them into a single dashboard.
-5. **Sharing**: Collaborate easily by sharing visualizations and their associated queries, enabling peer review of reports and queries.
-6. **Schedule refreshes**: Automatically update your charts and dashboards at regular intervals you define.
-7. **Alerts**: Define conditions and be alerted instantly when your data changes.
-8. **REST API**: Everything that can be done in the UI is also available through REST API.
-9. **Broad support for data sources**: Extensible data source API with native support for a long list of common databases and platforms.
+## ITS 환경 내 업데이트된 이미지 배포 방법
 
-<img src="https://raw.githubusercontent.com/getredash/website/8e820cd02c73a8ddf4f946a9d293c54fd3fb08b9/website/_assets/images/redash-anim.gif" width="80%"/>
+```shell
+# inception node(61.111.38.205) 접속
+## 패스워드는 its 접속정보 시트 참고
+$ ssh ubuntu@61.111.38.205
 
-## Getting Started
+# redash 배포 디렉토리로 이동
+$ cd /home/ubuntu/passxpert-dataops/deploy/deploy/helm/redash
 
-* [Setting up Redash instance](https://redash.io/help/open-source/setup) (includes links to ready-made AWS/GCE images).
-* [Documentation](https://redash.io/help/).
+# redash-values.yaml 수정
+## 위에서 새롭게 빌드한 이미지의 태그로 수정
+$ vi redash-values.yaml
+image:
+  repository: harbor.its.doxpert.co.kr/library/redash/redash
+  tag: {새롭게 빌드한 이미지의 tag}
+...
 
-## Supported Data Sources
-
-Redash supports more than 35 SQL and NoSQL [data sources](https://redash.io/help/data-sources/supported-data-sources). It can also be extended to support more. Below is a list of built-in sources:
-
-- Amazon Athena
-- Amazon CloudWatch / Insights
-- Amazon DynamoDB
-- Amazon Redshift
-- ArangoDB
-- Axibase Time Series Database
-- Apache Cassandra
-- ClickHouse
-- CockroachDB
-- Couchbase
-- CSV
-- Databricks
-- DB2 by IBM
-- Dgraph
-- Apache Drill
-- Apache Druid
-- Eccenca Corporate Memory
-- Elasticsearch
-- Exasol
-- Microsoft Excel
-- Firebolt
-- Databend
-- Google Analytics
-- Google BigQuery
-- Google Spreadsheets
-- Graphite
-- Greenplum
-- Apache Hive
-- Apache Impala
-- InfluxDB
-- IBM Netezza Performance Server
-- JIRA (JQL)
-- JSON
-- Apache Kylin
-- OmniSciDB (Formerly MapD)
-- MariaDB
-- MemSQL
-- Microsoft Azure Data Warehouse / Synapse
-- Microsoft Azure SQL Database
-- Microsoft Azure Data Explorer / Kusto
-- Microsoft SQL Server
-- MongoDB
-- MySQL
-- Oracle
-- Apache Phoenix
-- Apache Pinot
-- PostgreSQL
-- Presto
-- Prometheus
-- Python
-- Qubole
-- Rockset
-- Salesforce
-- ScyllaDB
-- Shell Scripts
-- Snowflake
-- SPARQL
-- SQLite
-- TiDB
-- TreasureData
-- Trino
-- Uptycs
-- Vertica
-- Yandex AppMetrrica
-- Yandex Metrica
-
-## Getting Help
-
-* Issues: https://github.com/getredash/redash/issues
-* Discussion Forum: https://github.com/getredash/redash/discussions/
-
-## Reporting Bugs and Contributing Code
-
-* Want to report a bug or request a feature? Please open [an issue](https://github.com/getredash/redash/issues/new).
-* Want to help us build **_Redash_**? Fork the project, edit in a [dev environment](https://redash.io/help-onpremise/dev/guide.html) and make a pull request. We need all the help we can get!
-
-## Security
-
-Please email security@redash.io to report any security vulnerabilities. We will acknowledge receipt of your vulnerability and strive to send you regular updates about our progress. If you're curious about the status of your disclosure please feel free to email us again. If you want to encrypt your disclosure email, you can use [this PGP key](https://keybase.io/arikfr/key.asc).
-
-## License
-
-BSD-2-Clause.
+# redash 배포
+$ bash install-redash.sh
+```
