@@ -7,12 +7,13 @@
 ``` sh
 # git clone
 $ git clone https://github.com/CrossentCloud/passxpert-dataops.git -b px
-$ ls -l | grep Dockerfile
--rwxrwxrwx 1 ubuntu ubuntu 3404 May 30 09:21 Dockerfile
 
 # docker image build
-# 최종 tag는 {version}-custom-{날짜} / 테스트 시에는 10.0.0-custom-1 부터 순차적으로 숫자 증가
-$ docker build . -t harbor.its.doxpert.co.kr/library/redash/redash:11.0.0-custom-{YYMMDD}
+## 최종 tag는 11.0.0-custom-{날짜} / 테스트 시에는 11.0.0-custom-1 부터 순차적으로 숫자 증가
+$ cd redash
+$ ls -l | grep Dockerfile
+-rwxrwxrwx 1 ubuntu ubuntu 3404 May 30 09:21 Dockerfile
+$ docker build . -t harbor.its.doxpert.co.kr/library/redash/redash:11.0.0-custom-230901
 ```
 
 ## ITS 환경 내 업데이트된 이미지 배포 방법
