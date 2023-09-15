@@ -13,7 +13,9 @@ $ git clone https://github.com/CrossentCloud/passxpert-dataops.git -b px
 $ cd redash
 $ ls -l | grep Dockerfile
 -rwxrwxrwx 1 ubuntu ubuntu 3404 May 30 09:21 Dockerfile
-$ docker build . -t harbor.its.doxpert.co.kr/library/redash/redash:11.0.0-custom-230901
+
+## inception node에서 네트워크 이슈로 build 시 --network=host 옵션을 추가하여 빌드해야 함
+$ docker build . --network=host -t harbor.its.doxpert.co.kr/library/redash/redash:11.0.0-custom-230901
 ```
 
 ## ITS 환경 내 업데이트된 이미지 배포 방법
