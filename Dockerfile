@@ -106,6 +106,7 @@ RUN if [ "x$test_all_deps" != "x" ] ; then pip3 install -r requirements.txt -r r
 COPY --chown=redash . /app
 COPY --from=frontend-builder --chown=redash /frontend/client/dist /app/client/dist
 RUN chown redash /app
+COPY response.py /usr/local/lib/python3.7/site-packages/saml2/response.py
 USER redash
 
 ENTRYPOINT ["/app/bin/docker-entrypoint"]
